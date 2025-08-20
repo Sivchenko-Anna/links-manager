@@ -5,5 +5,10 @@ body {
   margin: 0;
   padding: 10px;
   min-height: 100dvh;
-  @apply bg-gray-100;
+  @apply bg-gray-100 dark:bg-gray-950;
+}
+
+/* Плавные переходы */
+* {
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
