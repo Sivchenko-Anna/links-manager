@@ -6,6 +6,7 @@ import Tab from 'primevue/tab';
 import TabPanels from 'primevue/tabpanels';
 import TabPanel from 'primevue/tabpanel';
 import LoginForm from '@/components/AuthForm/LoginForm.vue'
+import RegistrationForm from '@/components/AuthForm/RegistrationForm.vue';
 
 const activeTab = ref('login'); // login | register | reset password
 </script>
@@ -21,7 +22,7 @@ const activeTab = ref('login'); // login | register | reset password
                 <LoginForm />
             </TabPanel>
             <TabPanel value="register">
-                <p>Register Form Placeholder</p>
+                <RegistrationForm />
             </TabPanel>
         </TabPanels>
     </Tabs>
