@@ -17,5 +17,10 @@ const formData = ref({
       <div class="mb-3">
         <InputText name="password" type="password" placeholder="Введите пароль" v-model="formData.password" class="w-full" />
       </div>
+      <span class="cursor-pointer mb-3 block">Забыли пароль?</span>
+      <div class="grid grid-cols-2 gap-3">
+        <Button type="submit" label="Войти" class="w-full" />
+        <Button type="submit" label="GitHub" class="w-full" icon="pi pi-github" severity="contrast" />
+      </div>
     </form>
 </template>
