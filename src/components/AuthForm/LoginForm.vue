@@ -1,5 +1,8 @@
 <script setup>
 import { ref } from 'vue';
+import { z } from 'zod';
+import { zodResolver } from '@primevue/forms/resolvers/zod';
+import { Form } from '@primevue/forms';
 import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
 
@@ -9,10 +12,17 @@ const formData = ref({
 });
 
 const emit = defineEmits(['reset-password']);
+
+const rules = z.object({
+  email: z.email({message: 'Введите корректный email'}),
+  password: z.string().min(6, {message: 'Пароль должен содержать минимум 6 символов'})
+})
+
+const resolver = ref(zodResolver(rules));
 </script>
 
 <template>
-    <form>
+    <Form v-slot="$form" :resolver="resolver" :initial-values="formData" :validate-on-blur :validate-on-value-update="false">
       <div class="mb-3">
         <InputText name="email" type="text" placeholder="Введите email" v-model="formData.email" class="w-full" />
       </div>
