@@ -3,14 +3,18 @@ import { ref } from 'vue'
 import { z } from 'zod'
 import { zodResolver } from '@primevue/forms/resolvers/zod'
 import { Form } from '@primevue/forms'
+import { useToast } from 'primevue/usetoast'
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
 import Message from 'primevue/message'
+import Toast from 'primevue/toast'
+
+const toast = useToast()
 
 const formData = ref({
-  email: '',
-  password: '',
-  firstName: '',
+    email: '',
+    password: '',
+    firstName: '',
 })
 
 const rules = z.object({
@@ -20,55 +24,63 @@ const rules = z.object({
 })
 
 const resolver = ref(zodResolver(rules))
+
+const submitForm = async ({ valid }) => {
+  if (!valid) return
+
+  toast.add({ severity: 'info', summary: 'Регистрация ', detail: 'Все хорошо', life: 3000 })
+}
 </script>
 
 <template>
+  <Toast />
   <Form
     v-slot="$form"
     :resolver="resolver"
     :initial-values="formData"
     :validate-on-blur="true"
     :validate-on-value-update="false"
+    @submit="submitForm"
   >
-    <div class="mb-3">
-      <InputText
+      <div class="mb-3">
+        <InputText 
         name="email"
         type="text"
         placeholder="Введите email"
         v-model="formData.email"
         class="w-full"
-      />
+        />
       <Message v-if="$form.email?.invalid" severity="error" variant="simple" size="small">{{
-        $form.email.error.message
+      $form.email.error.message
       }}</Message>
-    </div>
-    <div class="mb-3">
-      <InputText
-        name="password"
-        type="password"
-        placeholder="Введите пароль"
-        v-model="formData.password"
-        class="w-full"
-      />
-      <Message v-if="$form.password?.invalid" severity="error" variant="simple" size="small">{{
+      </div>
+      <div class="mb-3">
+        <InputText
+         name="password"
+         type="password"
+         placeholder="Введите пароль"
+         v-model="formData.password"
+         class="w-full"
+         />
+        <Message v-if="$form.password?.invalid" severity="error" variant="simple" size="small">{{
         $form.password.error.message
-      }}</Message>
-    </div>
-    <div class="mb-3">
-      <InputText
+        }}</Message>
+      </div>
+      <div class="mb-3">
+        <InputText
         name="firstName"
         type="text"
         placeholder="Введите имя"
         v-model="formData.firstName"
         class="w-full"
-      />
-      <Message v-if="$form.firstName?.invalid" severity="error" variant="simple" size="small">{{
+        />
+        <Message v-if="$form.firstName?.invalid" severity="error" variant="simple" size="small">{{
         $form.firstName.error.message
-      }}</Message>
-    </div>
-    <div class="grid grid-cols-2 gap-3">
-      <Button type="submit" label="Регистрация" class="w-full" />
-      <Button type="submit" label="GitHub" class="w-full" icon="pi pi-github" severity="contrast" />
-    </div>
+        }}</Message>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <Button type="submit" label="Регистрация" class="w-full" />
+        <Button type="submit" label="GitHub" class="w-full" icon="pi pi-github" severity="contrast" />
+      </div>
   </Form>
 </template>
