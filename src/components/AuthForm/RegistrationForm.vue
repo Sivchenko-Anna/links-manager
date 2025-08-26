@@ -3,14 +3,14 @@ import { ref } from 'vue'
 import { z } from 'zod'
 import { zodResolver } from '@primevue/forms/resolvers/zod'
 import { Form } from '@primevue/forms'
-import { useToast } from 'primevue/usetoast'
+import { useToastNofitications } from '@/composables/useToastNofitications.js'
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
 import Message from 'primevue/message'
 import Toast from 'primevue/toast'
 import { supabase } from '@/supabase.js'
 
-const toast = useToast()
+const { showToast } = useToastNofitications()
 
 const formData = ref({
   email: '',
@@ -34,14 +34,9 @@ const submitForm = async ({ valid }) => {
     password: formData.value.password,
   })
   if (error) {
-    toast.add({ severity: 'error', summary: 'Ошибка ', detail: error, life: 3000 })
+    showToast('error', 'Ошибка', error)
   } else {
-    toast.add({
-      severity: 'success',
-      summary: 'Регистрация ',
-      detail: 'Вы успешно зарегистрированы',
-      life: 3000,
-    })
+    showToast('success', 'Регистрация', 'Вы успешно зарегистрированы')
   }
 
   console.log(data, error)}
