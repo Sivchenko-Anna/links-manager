@@ -4,13 +4,14 @@ import { z } from 'zod'
 import { zodResolver } from '@primevue/forms/resolvers/zod'
 import { Form } from '@primevue/forms'
 import { useToastNofitications } from '@/composables/useToastNofitications.js'
+import { useAuth } from '@/composables/useAuth'
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
 import Message from 'primevue/message'
 import Toast from 'primevue/toast'
-import { supabase } from '@/supabase.js'
 
 const { showToast } = useToastNofitications()
+const { signUp, loading, errorMessage } = useAuth()
 
 const formData = ref({
   email: '',
@@ -28,18 +29,16 @@ const resolver = ref(zodResolver(rules))
 
 const submitForm = async ({ valid }) => {
   if (!valid) return
-
-  const { data, error } = await supabase.auth.signUp({
-    email: formData.value.email,
-    password: formData.value.password,
-  })
-  if (error) {
-    showToast('error', 'Ошибка', error)
-  } else {
+  try {
+    await signUp({
+      email: formData.value.email,
+      password: formData.value.password,
+    })
     showToast('success', 'Регистрация', 'Вы успешно зарегистрированы')
+  } catch {
+    showToast('error', 'Ошибка', errorMessage.value)
   }
-
-  console.log(data, error)}
+}
 </script>
 
 <template>
@@ -89,7 +88,7 @@ const submitForm = async ({ valid }) => {
       }}</Message>
     </div>
     <div class="grid grid-cols-2 gap-3">
-      <Button type="submit" label="Регистрация" class="w-full" />
+      <Button type="submit" label="Регистрация" class="w-full" :loading="loading" />
       <Button type="submit" label="GitHub" class="w-full" icon="pi pi-github" severity="contrast" />
     </div>
   </Form>
