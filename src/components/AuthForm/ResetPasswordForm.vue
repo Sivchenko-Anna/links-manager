@@ -16,6 +16,9 @@ const rules = z.object({
 })
 
 const resolver = ref(zodResolver(rules))
+const handleSubmit = async ({ valid }) => {
+  console.log('Form submitted:', valid)
+}
 </script>
 
 <template>
