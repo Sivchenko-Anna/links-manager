@@ -3,9 +3,14 @@ import { ref } from 'vue'
 import { z } from 'zod'
 import { zodResolver } from '@primevue/forms/resolvers/zod'
 import { Form } from '@primevue/forms'
+import { useToastNofitications } from '@/composables/useToastNofitications.js'
+import { useAuth } from '@/composables/useAuth'
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
 import Message from 'primevue/message'
+
+const { showToast } = useToastNofitications()
+const { signIn, loading, errorMessage } = useAuth()
 
 const formData = ref({
   email: '',
@@ -22,7 +27,15 @@ const rules = z.object({
 const resolver = ref(zodResolver(rules))
 
 const handleSubmit = async ({ valid }) => {
-  console.log('Form submitted:', valid)
+  if (!valid) return
+  try {
+    await signIn({
+      email: formData.value.email,
+      password: formData.value.password,
+    })
+  } catch {
+    showToast('error', 'Ошибка входа', errorMessage.value)
+  }
 }
 </script>
 
@@ -61,7 +74,7 @@ const handleSubmit = async ({ valid }) => {
     </div>
     <span class="cursor-pointer mb-3 block" @click="emit('reset-password')">Забыли пароль?</span>
     <div class="grid grid-cols-2 gap-3">
-      <Button type="submit" label="Войти" class="w-full" />
+      <Button type="submit" label="Войти" class="w-full" :loading="loading" />
       <Button type="submit" label="GitHub" class="w-full" icon="pi pi-github" severity="contrast" />
     </div>
   </Form>
