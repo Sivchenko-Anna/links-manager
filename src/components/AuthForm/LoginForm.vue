@@ -10,7 +10,7 @@ import Button from 'primevue/button'
 import Message from 'primevue/message'
 
 const { showToast } = useToastNofitications()
-const { signIn, loading, errorMessage } = useAuth()
+const { signIn, signInWithGithub, loading, errorMessage } = useAuth()
 
 const formData = ref({
   email: '',
@@ -75,7 +75,7 @@ const handleSubmit = async ({ valid }) => {
     <span class="cursor-pointer mb-3 block" @click="emit('reset-password')">Забыли пароль?</span>
     <div class="grid grid-cols-2 gap-3">
       <Button type="submit" label="Войти" class="w-full" :loading="loading" />
-      <Button type="submit" label="GitHub" class="w-full" icon="pi pi-github" severity="contrast" />
+      <Button label="GitHub" class="w-full" icon="pi pi-github" severity="contrast" @click="signInWithGithub" />
     </div>
   </Form>
 </template>
