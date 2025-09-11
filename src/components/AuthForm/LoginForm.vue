@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { z } from 'zod'
 import { zodResolver } from '@primevue/forms/resolvers/zod'
 import { Form } from '@primevue/forms'
@@ -28,6 +29,8 @@ const rules = z.object({
 
 const resolver = ref(zodResolver(rules))
 
+const router = useRouter();
+
 const handleSubmit = async ({ valid }) => {
   if (!valid) return
   try {
@@ -36,6 +39,7 @@ const handleSubmit = async ({ valid }) => {
       password: formData.value.password,
     })
     await userStore.getUser()
+    await router.replace({name: 'home'})
   } catch {
     showToast('error', 'Ошибка входа', errorMessage.value)
   }
