@@ -5,12 +5,14 @@ import { zodResolver } from '@primevue/forms/resolvers/zod'
 import { Form } from '@primevue/forms'
 import { useToastNofitications } from '@/composables/useToastNofitications.js'
 import { useAuth } from '@/composables/useAuth'
+import { useUserStore } from '@/stores/userStore.js';
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
 import Message from 'primevue/message'
 
 const { showToast } = useToastNofitications()
 const { signIn, signInWithGithub, loading, errorMessage } = useAuth()
+const userStore = useUserStore();
 
 const formData = ref({
   email: '',
@@ -33,6 +35,7 @@ const handleSubmit = async ({ valid }) => {
       email: formData.value.email,
       password: formData.value.password,
     })
+    await userStore.getUser()
   } catch {
     showToast('error', 'Ошибка входа', errorMessage.value)
   }
