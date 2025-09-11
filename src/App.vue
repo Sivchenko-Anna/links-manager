@@ -1,8 +1,8 @@
 <script setup>
 import { onMounted } from 'vue';
 import { RouterView } from 'vue-router'
-import { useUserStore } from './stores/userStore.js';
-import AppHeader from './components/AppHeader.vue';
+import { useUserStore } from '@/stores/userStore.js';
+import AppHeader from '@/components/AppHeader.vue';
 
 const userStore = useUserStore();
 onMounted(async() => {
