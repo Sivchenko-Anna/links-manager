@@ -11,6 +11,6 @@ onMounted(async() => {
 </script>
 
 <template>
-  <AppHeader />
+  <AppHeader v-if="userStore.user" />
   <RouterView />
 </template>
