@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { supabase } from '@/supabase.js'
 import { useToastNofitications } from '@/composables/useToastNofitications.js'
 import Dialog from 'primevue/dialog'
@@ -15,10 +15,29 @@ const categoriesList = ref([])
 const { showToast } = useToastNofitications()
 const isLoading = ref(false)
 
+const getCategories = async () => {
+  try {
+    const { data, error } = await supabase.from('categories').select()
+    if (error) {
+      throw error
+    }
+    categoriesList.value = data
+  } catch {
+    showToast('error', 'Ошибка', 'Не удалось получить категории')
+  }
+}
+
+watch(modelValue, async (newValue) => {
+  if (newValue) await getCategories()
+})
+
 const saveCategory = async () => {
   isLoading.value = true
   try {
-    const { data, error } = await supabase.from('categories').insert({ name: categoryName.value }).select()
+    const { data, error } = await supabase
+      .from('categories')
+      .insert({ name: categoryName.value })
+      .select()
     if (error) {
       throw error
     }
