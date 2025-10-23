@@ -10,16 +10,7 @@ import { Form } from '@primevue/forms'
 
 const modelValue = defineModel()
 const categoryName = ref('')
-const categoriesList = ref([
-  {
-    id: 1,
-    name: 'Category 1',
-  },
-  {
-    id: 2,
-    name: 'Category 2',
-  },
-])
+const categoriesList = ref([])
 
 const { showToast } = useToastNofitications()
 const isLoading = ref(false)
@@ -27,10 +18,11 @@ const isLoading = ref(false)
 const saveCategory = async () => {
   isLoading.value = true
   try {
-    const { data, error } = await supabase.from('categories').insert({ name: categoryName.value })
+    const { data, error } = await supabase.from('categories').insert({ name: categoryName.value }).select()
     if (error) {
       throw error
     }
+    categoriesList.value.push(data[0])
     categoryName.value = ''
     showToast('success', 'Успех', 'Категория успешно добавлена')
   } catch {
