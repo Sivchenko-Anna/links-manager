@@ -55,9 +55,19 @@ const saveCategory = async () => {
   }
 }
 
-const deleteCategory = (id) => {
-  console.log('deleteCategory', id)
-  showToast('success', 'Успех', 'Категория успешно удалена')
+const deleteCategory = async (id) => {
+  isLoadingModal.value = true
+  try {
+    const { error } = await supabase.from('categories').delete().eq('id', id)
+    if (error) {
+      throw error
+    }
+    categoriesList.value = categoriesList.value.filter((category) => category.id !== id)
+    showToast('success', 'Успех', 'Категория успешно удалена')
+    isLoadingModal.value = false
+  } catch {
+    showToast('error', 'Ошибка', 'При удалении категории произошла ошибка')
+  }
 }
 </script>
 
