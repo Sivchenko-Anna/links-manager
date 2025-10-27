@@ -1,7 +1,9 @@
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { z } from 'zod'
 import { zodResolver } from '@primevue/forms/resolvers/zod'
+import { useUserStore } from '@/stores/userStore.js'
 import { Form } from '@primevue/forms'
 import { useToastNotifications } from '@/composables/useToastNotifications.js'
 import { useAuth } from '@/composables/useAuth'
@@ -11,6 +13,8 @@ import Message from 'primevue/message'
 
 const { showToast } = useToastNotifications()
 const { signUp, signInWithGithub, loading, errorMessage } = useAuth()
+const userStore = useUserStore()
+const router = useRouter()
 
 const formData = ref({
   email: '',
@@ -34,6 +38,8 @@ const submitForm = async ({ valid }) => {
       password: formData.value.password,
       firstName: formData.value.firstName,
     })
+    await userStore.getUser()
+    await router.replace({ name: 'home' })
     showToast('success', 'Регистрация', 'Вы успешно зарегистрированы')
   } catch {
     showToast('error', 'Ошибка', errorMessage.value)
@@ -88,7 +94,13 @@ const submitForm = async ({ valid }) => {
     </div>
     <div class="grid grid-cols-2 gap-3">
       <Button type="submit" label="Регистрация" class="w-full" :loading="loading" />
-      <Button label="GitHub" class="w-full" icon="pi pi-github" severity="contrast" @click="signInWithGithub" />
+      <Button
+        label="GitHub"
+        class="w-full"
+        icon="pi pi-github"
+        severity="contrast"
+        @click="signInWithGithub"
+      />
     </div>
   </Form>
 </template>

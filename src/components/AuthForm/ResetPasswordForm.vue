@@ -21,7 +21,7 @@ const resolver = ref(zodResolver(rules))
 const handleSubmit = async ({ valid }) => {
   if (!valid) return
   try {
-    await resetPassword (email.value)
+    await resetPassword(email.value)
     showToast('success', 'Ссылка для сброса пароля уже на вашей почте')
   } catch {
     showToast('error', 'Ошибка входа', errorMessage.value)

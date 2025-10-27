@@ -6,14 +6,14 @@ import { zodResolver } from '@primevue/forms/resolvers/zod'
 import { Form } from '@primevue/forms'
 import { useToastNotifications } from '@/composables/useToastNotifications.js'
 import { useAuth } from '@/composables/useAuth'
-import { useUserStore } from '@/stores/userStore.js';
+import { useUserStore } from '@/stores/userStore.js'
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
 import Message from 'primevue/message'
 
 const { showToast } = useToastNotifications()
 const { signIn, signInWithGithub, loading, errorMessage } = useAuth()
-const userStore = useUserStore();
+const userStore = useUserStore()
 
 const formData = ref({
   email: '',
@@ -29,7 +29,7 @@ const rules = z.object({
 
 const resolver = ref(zodResolver(rules))
 
-const router = useRouter();
+const router = useRouter()
 
 const handleSubmit = async ({ valid }) => {
   if (!valid) return
@@ -39,7 +39,7 @@ const handleSubmit = async ({ valid }) => {
       password: formData.value.password,
     })
     await userStore.getUser()
-    await router.replace({name: 'home'})
+    await router.replace({ name: 'home' })
   } catch {
     showToast('error', 'Ошибка входа', errorMessage.value)
   }
@@ -82,7 +82,13 @@ const handleSubmit = async ({ valid }) => {
     <span class="cursor-pointer mb-3 block" @click="emit('reset-password')">Забыли пароль?</span>
     <div class="grid grid-cols-2 gap-3">
       <Button type="submit" label="Войти" class="w-full" :loading="loading" />
-      <Button label="GitHub" class="w-full" icon="pi pi-github" severity="contrast" @click="signInWithGithub" />
+      <Button
+        label="GitHub"
+        class="w-full"
+        icon="pi pi-github"
+        severity="contrast"
+        @click="signInWithGithub"
+      />
     </div>
   </Form>
 </template>
