@@ -1,10 +1,12 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useLinksStore } from '@/stores/linksStore.js'
+import { useToastNotifications } from '@/composables/useToastNotifications.js'
 import Card from 'primevue/card'
 import SpeedDial from 'primevue/speeddial'
 
 const linksStore = useLinksStore()
+const { showToast } = useToastNotifications()
 
 const props = defineProps({
   link: {
@@ -25,7 +27,7 @@ const itemsMenuButton = ref([
     label: 'Скопировать',
     icon: 'pi pi-link',
     command: () => {
-      console.log('copy')
+      copyToClipboard()
     },
   },
   {
@@ -43,6 +45,15 @@ const itemsMenuButton = ref([
     },
   },
 ])
+
+const copyToClipboard = async () => {
+  try {
+    await navigator.clipboard.writeText(props.link.url)
+    showToast('success', `Успешно`, `Скопировано ${props.link.name}`)
+  } catch {
+    showToast('error', 'Ошибка при копировании')
+  }
+}
 </script>
 
 <template>
