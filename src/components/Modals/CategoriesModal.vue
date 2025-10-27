@@ -92,6 +92,7 @@ const deleteCategory = async (id) => {
             label="Добавить категорию"
             @click="saveCategory"
             :loading="isLoading"
+            :disabled="categoryName.length < 3"
           />
         </div>
         <div
