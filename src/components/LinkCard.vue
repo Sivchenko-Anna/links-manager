@@ -68,6 +68,10 @@ const copyToClipboard = async () => {
 const isFavoriteCard = computed(() => {
   return props.link.is_favorite ? 'var(--p-button-outlined-warn-hover-background' : ''
 })
+
+const openLink = () => {
+  linksStore.addClickCount(props.link.id)
+}
 </script>
 
 <template>
@@ -75,7 +79,7 @@ const isFavoriteCard = computed(() => {
     <template #title>
       <div class="flex items-center gap-2 pr-10">
         <img :src="link.preview_image" :alt="link.name" />
-        <a :href="link.url" target="_blank">{{ link.name }}</a>
+        <a :href="link.url" target="_blank" @click="openLink">{{ link.name }}</a>
         <SpeedDial
           :model="itemsMenuButton"
           :tooltipOptions="{ position: 'left' }"

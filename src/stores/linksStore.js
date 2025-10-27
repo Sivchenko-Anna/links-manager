@@ -40,7 +40,21 @@ export const useLinksStore = defineStore('links', () => {
     links.value = links.value.filter((link) => link.id !== id)
   }
 
-  return { isLoading, links, fetchLinks, changeIsFavorite, removeLink }
+  const addClickCount = async (id) => {
+    const index = links.value.findIndex((link) => link.id === id)
+    if (index !== -1) {
+      const newClickCount = links.value[index].click_count + 1
+
+      const { error } = await supabase
+        .from('links')
+        .update({ click_count: newClickCount })
+        .eq('id', id)
+      if (error) throw error
+      links.value[index].click_count = newClickCount
+    }
+  }
+
+  return { isLoading, links, fetchLinks, changeIsFavorite, removeLink, addClickCount }
 })
 
 if (import.meta.hot) {
