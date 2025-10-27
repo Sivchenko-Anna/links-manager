@@ -5,7 +5,7 @@ import { useLinksStore } from '@/stores/linksStore.js'
 const linksStore = useLinksStore()
 
 const updateFilters = () => {
-  linksStore.fetchLinks()
+  linksStore.fetchLinks(true)
 }
 </script>
 

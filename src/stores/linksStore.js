@@ -13,8 +13,20 @@ export const useLinksStore = defineStore('links', () => {
   const hasMoreLinks = ref(true)
   const offset = ref(0)
 
-  const fetchLinks = async () => {
+  const fetchLinks = async (resetPages = false, resetFilters = false) => {
     isLoading.value = true
+
+    if (resetPages) {
+      offset.value = 0
+      links.value = []
+      hasMoreLinks.value = true
+    }
+
+    if (resetFilters) {
+      sortByPopular.value = false
+      onlyFavorites.value = false
+    }
+
     try {
       let query = supabase
         .from('links')
@@ -88,6 +100,7 @@ export const useLinksStore = defineStore('links', () => {
     onlyFavorites,
     sortByPopular,
     hasMoreLinks,
+    offset,
   }
 })
 

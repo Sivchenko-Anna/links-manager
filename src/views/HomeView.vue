@@ -23,7 +23,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <AppLoader v-if="linksStore.isLoading" />
+  <AppLoader v-if="linksStore.isLoading && linksStore.offset === 0" />
   <div v-else>
     <CardsFilters />
     <h2 v-if="!linksStore.links.length" class="font-bold text-center">
