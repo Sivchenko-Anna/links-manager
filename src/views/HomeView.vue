@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted } from 'vue'
 import { useLinksStore } from '@/stores/linksStore.js'
+import Button from 'primevue/button'
 import AppLoader from '@/components/AppLoader.vue'
 import LinkCard from '@/components/LinkCard.vue'
 import CardsFilters from '@/components/CardsFilters.vue'
@@ -30,6 +31,14 @@ onMounted(async () => {
     </h2>
     <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       <LinkCard v-for="link in linksStore.links" :key="link.id" :link="link" />
+    </div>
+    <div class="flex justify-center mt-3">
+      <Button
+        v-if="linksStore.hasMoreLinks"
+        label="Показать еще"
+        :loading="linksStore.isLoading"
+        @click="linksStore.fetchLinks()"
+      />
     </div>
   </div>
 </template>

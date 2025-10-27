@@ -2,11 +2,16 @@ import { acceptHMRUpdate, defineStore } from 'pinia'
 import { ref } from 'vue'
 import { supabase } from '@/supabase'
 
+const LIMIT = 2
+
 export const useLinksStore = defineStore('links', () => {
   const isLoading = ref(false)
   const links = ref([])
   const onlyFavorites = ref(false)
   const sortByPopular = ref(false)
+  const totalLinks = ref(0)
+  const hasMoreLinks = ref(true)
+  const offset = ref(0)
 
   const fetchLinks = async () => {
     isLoading.value = true
@@ -15,7 +20,9 @@ export const useLinksStore = defineStore('links', () => {
         .from('links')
         .select(
           'id, name, url, description, is_favorite, preview_image, categories (id, name), click_count',
+          { count: 'exact' },
         )
+        .range(offset.value, offset.value + LIMIT - 1)
 
       if (onlyFavorites.value) query = query.eq('is_favorite', true)
       if (sortByPopular.value) {
@@ -23,12 +30,14 @@ export const useLinksStore = defineStore('links', () => {
       } else {
         query = query.order('created_at', { ascending: false })
       }
-      console.log(sortByPopular.value)
 
-      const { data, error } = await query
+      const { data, error, count } = await query
       if (error) throw error
 
-      links.value = data
+      totalLinks.value = count
+      offset.value += data.length
+      links.value.push(...data)
+      hasMoreLinks.value = offset.value < totalLinks.value
     } catch (e) {
       console.error('Ошибка загрузки', e)
     } finally {
@@ -77,7 +86,8 @@ export const useLinksStore = defineStore('links', () => {
     removeLink,
     addClickCount,
     onlyFavorites,
-    sortByPopular
+    sortByPopular,
+    hasMoreLinks,
   }
 })
 
