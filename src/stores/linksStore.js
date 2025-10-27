@@ -5,20 +5,29 @@ import { supabase } from '@/supabase'
 export const useLinksStore = defineStore('links', () => {
   const isLoading = ref(false)
   const links = ref([])
+  const onlyFavorites = ref(false)
 
   const fetchLinks = async () => {
     isLoading.value = true
-    console.log(isLoading.value)
-    const { data, error } = await supabase
-      .from('links')
-      .select(
-        'id, name, url, description, is_favorite, preview_image, categories (id, name), click_count',
-      )
-      .order('created_at', { ascending: false })
+    try {
+      let query = supabase
+        .from('links')
+        .select(
+          'id, name, url, description, is_favorite, preview_image, categories (id, name), click_count',
+        )
+        .order('created_at', { ascending: false })
 
-    if (error) throw error
-    links.value = data
-    isLoading.value = false
+      if (onlyFavorites.value) query = query.eq('is_favorite', true)
+
+      const { data, error } = await query
+      if (error) throw error
+
+      links.value = data
+    } catch (e) {
+      console.error('Ошибка загрузки', e)
+    } finally {
+      isLoading.value = false
+    }
   }
 
   const changeIsFavorite = async (id) => {
@@ -54,7 +63,15 @@ export const useLinksStore = defineStore('links', () => {
     }
   }
 
-  return { isLoading, links, fetchLinks, changeIsFavorite, removeLink, addClickCount }
+  return {
+    isLoading,
+    links,
+    fetchLinks,
+    changeIsFavorite,
+    removeLink,
+    addClickCount,
+    onlyFavorites,
+  }
 })
 
 if (import.meta.hot) {

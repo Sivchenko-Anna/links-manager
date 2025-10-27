@@ -3,6 +3,7 @@ import { onMounted } from 'vue'
 import { useLinksStore } from '@/stores/linksStore.js'
 import AppLoader from '@/components/AppLoader.vue'
 import LinkCard from '@/components/LinkCard.vue'
+import CardsFilters from '@/components/CardsFilters.vue'
 
 const linksStore = useLinksStore()
 
@@ -23,6 +24,7 @@ onMounted(async () => {
 <template>
   <AppLoader v-if="linksStore.isLoading" />
   <div v-else>
+    <CardsFilters />
     <h2 v-if="!linksStore.links.length" class="font-bold text-center">
       Вы пока еще не добавили ссылок
     </h2>
