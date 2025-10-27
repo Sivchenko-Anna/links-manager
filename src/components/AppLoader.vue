@@ -6,7 +6,7 @@ import ProgressSpinner from 'primevue/progressspinner'
   <div class="flex justify-center">
     <ProgressSpinner
       class="w-[50px] h-[50px]"
-      strokeWidth="8"
+      strokeWidth="4"
       fill="transparent"
       animationDuration=".5s"
     />
