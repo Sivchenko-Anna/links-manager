@@ -4,6 +4,7 @@ import { useLinksStore } from '@/stores/linksStore.js'
 import { useToastNotifications } from '@/composables/useToastNotifications.js'
 import Card from 'primevue/card'
 import SpeedDial from 'primevue/speeddial'
+import CreateLinkModal from '@/components/Modals/CreateLinkModal.vue'
 
 const linksStore = useLinksStore()
 const { showToast } = useToastNotifications()
@@ -14,6 +15,8 @@ const props = defineProps({
     required: true,
   },
 })
+
+const createLinkModalVisible = ref(false)
 
 const itemsMenuButton = ref([
   {
@@ -39,7 +42,7 @@ const itemsMenuButton = ref([
     label: 'Редактировать',
     icon: 'pi pi-pencil',
     command: () => {
-      console.log('edit link')
+      createLinkModalVisible.value = true
     },
   },
   {
@@ -75,6 +78,7 @@ const openLink = () => {
 </script>
 
 <template>
+  <CreateLinkModal v-model="createLinkModalVisible" is-edit :id="link.id" />
   <Card class="relative" :style="{ backgroundColor: isFavoriteCard }">
     <template #title>
       <div class="flex items-center gap-2 pr-10">
