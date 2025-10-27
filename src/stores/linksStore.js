@@ -2,7 +2,7 @@ import { acceptHMRUpdate, defineStore } from 'pinia'
 import { ref } from 'vue'
 import { supabase } from '@/supabase'
 
-const LIMIT = 2
+const LIMIT = 6
 
 export const useLinksStore = defineStore('links', () => {
   const isLoading = ref(false)
