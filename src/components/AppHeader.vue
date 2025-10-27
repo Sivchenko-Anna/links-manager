@@ -3,7 +3,7 @@ import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/userStore.js'
 import { useAuth } from '@/composables/useAuth'
-import { useToastNofitications } from '@/composables/useToastNofitications.js'
+import { useToastNotifications } from '@/composables/useToastNotifications.js'
 import Button from 'primevue/button'
 import Avatar from 'primevue/avatar'
 import Menubar from 'primevue/menubar'
@@ -12,7 +12,7 @@ import CreateLinkModal from '@/components/Modals/CreateLinkModal.vue'
 
 const userStore = useUserStore()
 const { signOut, errorMessage } = useAuth()
-const { showToast } = useToastNofitications()
+const { showToast } = useToastNotifications()
 const router = useRouter()
 
 const emailFirstLetter = computed(() => {
