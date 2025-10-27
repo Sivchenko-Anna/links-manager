@@ -8,6 +8,7 @@ import Button from 'primevue/button'
 import Avatar from 'primevue/avatar'
 import Menubar from 'primevue/menubar'
 import CategoriesModal from '@/components/Modals/CategoriesModal.vue'
+import CreateLinkModal from '@/components/Modals/CreateLinkModal.vue'
 
 const userStore = useUserStore()
 const { signOut, errorMessage } = useAuth()
@@ -28,19 +29,21 @@ const singOutUser = async () => {
   }
 }
 
-const CategoriesDialogVisible = ref(false)
+const categoriesDialogVisible = ref(false)
+const createLinkDialogVisible = ref(false)
 </script>
 
 <template>
-  <CategoriesModal v-model="CategoriesDialogVisible" />
+  <CategoriesModal v-model="categoriesDialogVisible" />
+  <CreateLinkModal v-model="createLinkDialogVisible" />
   <div class="mb-5">
     <Menubar>
       <template #start>
         <div class="flex items-center gap-2">
           <span class="font-bold">Link Manager</span>
           <div class="flex items-center gap-2">
-            <Button icon="pi pi-link" rounded />
-            <Button icon="pi pi-folder" rounded @click="CategoriesDialogVisible = true" />
+            <Button icon="pi pi-link" rounded @click="createLinkDialogVisible = true" />
+            <Button icon="pi pi-folder" rounded @click="categoriesDialogVisible = true" />
           </div>
         </div>
       </template>

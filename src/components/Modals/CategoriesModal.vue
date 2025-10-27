@@ -73,7 +73,7 @@ const deleteCategory = async (id) => {
 
 <template>
   <Toast />
-  <Dialog header="Категории" v-model:visible="modelValue" class="w-[25rem]">
+  <Dialog modal header="Категории" v-model:visible="modelValue" class="w-[25rem]">
     <template v-if="isLoadingModal">
       <div class="grid mt-3 grid-cols-[1fr_32px] mb-1 items-center gap-5">
         <Skeleton width="100%" />
