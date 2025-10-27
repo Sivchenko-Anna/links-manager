@@ -5,7 +5,6 @@ import { useToastNotifications } from '@/composables/useToastNotifications.js'
 import Dialog from 'primevue/dialog'
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
-import Toast from 'primevue/toast'
 import { Form } from '@primevue/forms'
 import Skeleton from 'primevue/skeleton'
 
@@ -72,7 +71,6 @@ const deleteCategory = async (id) => {
 </script>
 
 <template>
-  <Toast />
   <Dialog modal header="Категории" v-model:visible="modelValue" class="w-[25rem]">
     <template v-if="isLoadingModal">
       <div class="grid mt-3 grid-cols-[1fr_32px] mb-1 items-center gap-5">

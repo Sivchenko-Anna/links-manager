@@ -14,7 +14,6 @@ import Select from 'primevue/select'
 import Checkbox from 'primevue/checkbox'
 import { Form } from '@primevue/forms'
 import Message from 'primevue/message'
-import Toast from 'primevue/toast'
 import AppLoader from '@/components/AppLoader.vue'
 
 const userStore = useUserStore()
@@ -183,7 +182,6 @@ watch(modelValue, async (newValue) => {
 </script>
 
 <template>
-  <Toast />
   <Dialog modal :header="textHeader" v-model:visible="modelValue" class="w-[25rem]">
     <Form
       v-slot="$form"

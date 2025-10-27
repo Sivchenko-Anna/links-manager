@@ -8,7 +8,6 @@ import { useAuth } from '@/composables/useAuth'
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
 import Message from 'primevue/message'
-import Toast from 'primevue/toast'
 
 const { showToast } = useToastNotifications()
 const { signUp, signInWithGithub, loading, errorMessage } = useAuth()
@@ -43,7 +42,6 @@ const submitForm = async ({ valid }) => {
 </script>
 
 <template>
-  <Toast />
   <Form
     v-slot="$form"
     :resolver="resolver"
