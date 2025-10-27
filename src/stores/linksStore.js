@@ -34,7 +34,13 @@ export const useLinksStore = defineStore('links', () => {
     }
   }
 
-  return { isLoading, links, fetchLinks, changeIsFavorite }
+  const removeLink = async (id) => {
+    const { error } = await supabase.from('links').delete().eq('id', id)
+    if (error) throw error
+    links.value = links.value.filter((link) => link.id !== id)
+  }
+
+  return { isLoading, links, fetchLinks, changeIsFavorite, removeLink }
 })
 
 if (import.meta.hot) {

@@ -46,7 +46,12 @@ const itemsMenuButton = ref([
     label: 'Удалить',
     icon: 'pi pi-trash',
     command: async () => {
-      console.log('remove link')
+      try {
+        await linksStore.removeLink(props.link.id)
+        showToast('success', 'Успешно', 'Ссылка удалена')
+      } catch {
+        showToast('error', 'Ошибка')
+      }
     },
   },
 ])
