@@ -21,7 +21,20 @@ export const useLinksStore = defineStore('links', () => {
     isLoading.value = false
   }
 
-  return { isLoading, links, fetchLinks }
+  const changeIsFavorite = async (id) => {
+    const index = links.value.findIndex((link) => link.id === id)
+    if (index !== -1) {
+      const newFavoriteState = !links.value[index].is_favorite
+      const { error } = await supabase
+        .from('links')
+        .update({ is_favorite: newFavoriteState })
+        .eq('id', id)
+      if (error) throw error
+      links.value[index].is_favorite = newFavoriteState
+    }
+  }
+
+  return { isLoading, links, fetchLinks, changeIsFavorite }
 })
 
 if (import.meta.hot) {

@@ -20,7 +20,12 @@ const itemsMenuButton = ref([
     label: 'Избранное',
     icon: 'pi pi-star',
     command: async () => {
-      console.log('add to favorite')
+      try {
+        await linksStore.changeIsFavorite(props.link.id)
+        showToast('success', 'Успешно', 'Изменения сохранены')
+      } catch {
+        showToast('error', 'Ошибка')
+      }
     },
   },
   {
@@ -54,10 +59,14 @@ const copyToClipboard = async () => {
     showToast('error', 'Ошибка при копировании')
   }
 }
+
+const isFavoriteCard = computed(() => {
+  return props.link.is_favorite ? 'var(--p-button-outlined-warn-hover-background' : ''
+})
 </script>
 
 <template>
-  <Card class="relative">
+  <Card class="relative" :style="{ backgroundColor: isFavoriteCard }">
     <template #title>
       <div class="flex items-center gap-2 pr-10">
         <img :src="link.preview_image" :alt="link.name" />
