@@ -1,8 +1,8 @@
 <script setup>
 import { onMounted } from 'vue'
 import { useLinksStore } from '@/stores/linksStore.js'
-import Button from 'primevue/button'
 import AppLoader from '@/components/AppLoader.vue'
+import LinkCard from '@/components/LinkCard.vue'
 
 const linksStore = useLinksStore()
 
@@ -26,6 +26,8 @@ onMounted(async () => {
     <h2 v-if="!linksStore.links.length" class="font-bold text-center">
       Вы пока еще не добавили ссылок
     </h2>
-    <template v-else> Здесь будут ссылки </template>
+    <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <LinkCard v-for="link in linksStore.links" :key="link.id" :link="link" />
+    </div>
   </div>
 </template>
