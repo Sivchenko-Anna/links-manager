@@ -4,6 +4,7 @@ import { z } from 'zod'
 import { zodResolver } from '@primevue/forms/resolvers/zod'
 import { supabase } from '@/supabase.js'
 import { useUserStore } from '@/stores/userStore.js'
+import { useLinksStore } from '@/stores/linksStore.js'
 import { useToastNofitications } from '@/composables/useToastNofitications.js'
 import Dialog from 'primevue/dialog'
 import InputText from 'primevue/inputtext'
@@ -17,6 +18,8 @@ import Toast from 'primevue/toast'
 import AppLoader from '@/components/AppLoader.vue'
 
 const userStore = useUserStore()
+const linksStore = useLinksStore()
+
 const modelValue = defineModel()
 const { showToast } = useToastNofitications()
 const isLoading = ref(false)
@@ -98,6 +101,7 @@ const addNewLink = async () => {
 
 const submitForm = async () => {
   await addNewLink()
+  await linksStore.fetchLinks()
 }
 
 const loadModal = async () => {
