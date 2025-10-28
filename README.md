@@ -1,35 +1,52 @@
-# links-manager
+# Links manager
 
-This template should help get you started developing with Vue 3 in Vite.
+Веб-приложение для управления и организации ваших ссылок с авторизацией, категориями, избранным и системой рейтинга.
+🌐 Демо: [Links-manager](links-manager-app.netlify.app)
 
-## Recommended IDE Setup
+## Стек
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- Vue 3
+- Pinia
+- Supabase
+- PrimeVue + PrimeIcons
+- Tailwind CSS
+- Zod
 
-## Customize configuration
+## Функциональность приложения
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+Приложение позволяет пользователям:
 
-## Project Setup
+* авторизоваться через почту или Github
+* управлять своими ссылками (создание, редактирование, добавление в избранное, удаление)
+* добавлять категории и фильтровать ссылки по ним
+* отслеживать популярность ссылок по кликам
+* сортировать результаты по различным критериям
+* работать с пагинацией
 
+## Примеры использования 
+<img width="1115" height="606" alt="Авторизация" src="https://github.com/user-attachments/assets/78d71aba-7405-4864-8162-036c92f5dfea" />
+<img width="1352" height="636" alt="Создание ссылки" src="https://github.com/user-attachments/assets/9a0dabbd-07b4-4eb5-969a-e105944737fa" />
+<img width="1352" height="468" alt="Фильтрация" src="https://github.com/user-attachments/assets/3fe44c3e-c874-4974-9f58-e739073d43a6" />
+
+## Запуск проекта
+
+Если вы хотите запустить проект локально, выполните следующие шаги:
+1. Убедитесь, что у вас установлен Node.js
+2. Склонируйте репозиторий на свой локальный компьютер
+```sh
+git clone https://github.com/Sivchenko-Anna/links-manager.git
+```
+3. Перейдите в директорию проекта 
+```sh
+cd links-manager
+```
+4. Установите зависимости 
 ```sh
 npm install
 ```
-
-### Compile and Hot-Reload for Development
-
+5. Запустите проект
 ```sh
 npm run dev
 ```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+Приложение будет доступно по адресу:
+http://localhost:5173
